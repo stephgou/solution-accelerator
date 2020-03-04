@@ -1,44 +1,23 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "RecipientEmail": {
+        "suffix": {
             "type": "string",
             "metadata": {
                 "description": "Enter a valid email address you want to use to send notification emails from the Logic App."
             }
         },
-        "location": {
+        "recipientEmail": {
             "type": "string",
-            "defaultValue": "westus",
             "metadata": {
-                "description": "The location where all azure resources will be deployed."
-            },
-            "allowedValues": [
-                "eastasia",
-                "southeastasia",
-                "australiaeast",
-                "canadacentral",
-                "northeurope",
-                "westeurope",
-                "francecentral",
-                "japaneast",
-                "koreacentral",
-                "uksouth",
-                "centralus",
-                "eastus",
-                "eastus2",
-                "northcentralus",
-                "southcentralus",
-                "westcentralus",
-                "westus",
-                "westus2"
-            ]
+                "description": "Enter a valid email address you want to use to send notification emails from the Logic App."
+            }
         }
     },
     "variables": {
-        "location": "[parameters('location')]",
-        "name-suffix": "[uniqueString(resourceGroup().id)]",
+        "location": "[resourceGroup().location]",
+        "name-suffix": "[parameters('suffix')]",
 
         "iotHubName": "[concat('iot-hub-', variables('name-suffix'))]",
 
@@ -83,8 +62,8 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
-                    "location": {
-                        "value": "[variables('location')]"
+                    "suffix": {
+                        "value": "[variables('name-suffix')]"
                     }
                 }
             },
